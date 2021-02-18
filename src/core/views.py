@@ -21,6 +21,7 @@ class ProductsList(APIView):
     Admin viewer:
     * View all products in store
     * Create a new products in store
+    * Delete all products in store
     """
 
     # GET - Retrive all resorces
