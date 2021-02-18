@@ -5,9 +5,9 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-# Model imports
-from core.models import Products
-from core.serializers import ProductSerializers
+# Import modules
+from .models import Products
+from .serializers import ProductSerializer
 
 
 class TestView(APIView):
@@ -18,11 +18,28 @@ class TestView(APIView):
 
 class ProductsList(APIView):
     """
-    View to list all products in the stored
+    Admin viewer:
+    * View all products in store
+    * Create a new products in store
+    * Delete all products in store
     """
 
+    # GET - Retrive all resorces
     def get(self, request, format=None):
-        """
-        Returns a list of all products
-        """
-        products = []
+        products = Products.objects.all()
+        serializer = ProductSerializer(products, many=True)
+        return Response(serializer.data)
+
+    # POST - Create new resource
+    def post(self, request, format=None):
+        serializer = ProductSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # DELETE - Detroy all resource
+    def delete(self, request, format=None):
+        products = Products.objects.all()
+        products.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
