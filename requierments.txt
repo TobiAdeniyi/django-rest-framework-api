@@ -1,7 +1,16 @@
 asgiref @ file:///tmp/build/80754af9/asgiref_1605055780383/work
 certifi==2020.12.5
+chardet==4.0.0
 Django @ file:///tmp/build/80754af9/django_1612212120213/work
+django-filter==2.4.0
 djangorestframework==3.12.2
+httpie==2.4.0
+idna==2.10
 psycopg2 @ file:///opt/concourse/worker/volumes/live/d12e789f-5b6c-4947-7cc2-187f3a9c9696/volume/psycopg2_1612298599991/work
+Pygments==2.8.0
+PySocks==1.7.1
 pytz @ file:///tmp/build/80754af9/pytz_1612215392582/work
+requests==2.25.1
+requests-toolbelt==0.9.1
 sqlparse @ file:///tmp/build/80754af9/sqlparse_1602184451250/work
+urllib3==1.26.3
