@@ -1,7 +1,7 @@
 from django.db import models
 
 
-# Store Products
+# Products in Store
 class Products(models.Model):
     name = models.CharField(max_length=100, null=True)
     weight = models.FloatField(null=True)
@@ -10,3 +10,6 @@ class Products(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ['name']

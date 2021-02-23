@@ -1,45 +1,30 @@
 from django.http import Http404
 
 # 3rd Party Imports
-from rest_framework import status
-from rest_framework.views import APIView
+from rest_framework import status, viewsets, filters
 from rest_framework.response import Response
+# from rest_framework.decorators import action
 
 # Import modules
 from .models import Products
 from .serializers import ProductSerializer
 
 
-class TestView(APIView):
-    def get(self, request, *args, **kwargs):
-        data = {'name': 'Dave', 'age': 25}
-        return Response(data)
-
-
-class ProductsList(APIView):
+class ProductsViewSet(viewsets.ModelViewSet):
     """
     Admin viewer:
     * View all products in store
     * Create a new products in store
     * Delete all products in store
     """
+    queryset = Products.objects.all()
+    serializer_class = ProductSerializer
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = '__all__'
 
-    # GET - Retrive all resorces
-    def get(self, request, format=None):
-        products = Products.objects.all()
-        serializer = ProductSerializer(products, many=True)
-        return Response(serializer.data)
-
-    # POST - Create new resource
-    def post(self, request, format=None):
-        serializer = ProductSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    # DELETE - Detroy all resource
-    def delete(self, request, format=None):
-        products = Products.objects.all()
-        products.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    # # GET - Order by
+    # @action(methods=['GET'], detail=False)
+    # def organised(self, request):
+    #     ordered = self.get_queryset().order_by('name')
+    #     serializer = self.get_serializer_class()(ordered, many=True)
+    #     return Response(serializer.data)
