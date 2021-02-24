@@ -16,8 +16,8 @@ class Products(models.Model):
         return self.name
 
 
-# Each Customer
-class Customer(models.Model):
+# Customers of the Store
+class Customers(models.Model):
     user = models.OneToOneField(
         User, null=True, blank=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, null=True)
@@ -29,10 +29,10 @@ class Customer(models.Model):
         return self.name
 
 
-# A Customers Basket
-class Basket(models.Model):
+# Baskets for Customers
+class Baskets(models.Model):
     customer = models.ForeignKey(
-        Customer, null=True, blank=True, on_delete=models.SET_NULL)
+        Customers, null=True, blank=True, on_delete=models.SET_NULL)
     date_added = models.DateTimeField(auto_now_add=True)
 
     class Meta:
