@@ -2,7 +2,7 @@ from rest_framework import viewsets, filters
 from rest_framework.response import Response
 
 # Import modules
-from .models import Products
+from .models import Products, Customers, Baskets
 from .serializers import ProductSerializer
 
 
@@ -12,6 +12,17 @@ class ProductsViewSet(viewsets.ModelViewSet):
     * View all products in store
     * Create a new products in store
     * Delete all products in store
+    """
+    queryset = Products.objects.all()
+    serializer_class = ProductSerializer
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = '__all__'
+
+
+class CustomerPoductsViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    Customer viewer:
+    * View all products in store
     """
     queryset = Products.objects.all()
     serializer_class = ProductSerializer
