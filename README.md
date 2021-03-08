@@ -21,8 +21,6 @@
 
 ## About
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
 In this project I will be building a functioning RESTful API using Django Restframework along with a PostgreSQL database. The API is intended to be used for a simple E-Commerce application, and will allow the user to do the following:
 
 ### Key objectives:
