@@ -77,11 +77,6 @@ In this project I will be building a functioning RESTful API using Django Restfr
 ## Acknowledgements
 
 - [Best README Temlate](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-- [LinkedIn Learn](https://www.linkedin.com/learning/building-a-personal-portfolio-with-django/starting-a-new-project-in-django?contextUrn=urn%3Ali%3AlyndaLearningPath%3A5d546c44498e876bef6651ba)
-- [EMOJI CHEAT SHEET](https://www.webfx.com/tools/emoji-cheat-sheet/)
-- [Bootstrap v5.0](https://getbootstrap.com/docs/5.0/getting-started/download/)
-- [jQuery v3.6.0](https://jquery.com/download/)
-- [Popper v2.x](https://popper.js.org/docs/v2/)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
