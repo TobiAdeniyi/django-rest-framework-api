@@ -1,7 +1,9 @@
 from django.urls import path, include
-from .routers import router
+from .views import ProductList, ProductCreate, ProductDestroy, BasketList
 
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('products', ProductList.as_view()),
+    path('products/new', ProductCreate.as_view()),
+    path('products/<int:id>/destroy', ProductDestroy.as_view()),
 ]
