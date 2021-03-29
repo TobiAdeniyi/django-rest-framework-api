@@ -1,5 +1,5 @@
 from rest_framework.exceptions import ValidationError
-from rest_framework.generics import ListAPIView, CreateAPIView, DestroyAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveUpdateDestroyAPIView
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.pagination import LimitOffsetPagination
@@ -18,6 +18,7 @@ class ProductsPagination(LimitOffsetPagination):
 
 class ProductList(ListAPIView):
     """
+    All User
     * View all products in store
     """
     queryset = Product.objects.all()
@@ -31,6 +32,7 @@ class ProductList(ListAPIView):
 
 class ProductCreate(CreateAPIView):
     """
+    Admin only
     * Create new product in store
     """
     serializer_class = ProductSerializer
@@ -45,11 +47,15 @@ class ProductCreate(CreateAPIView):
         return super().create(request, *args, **kwargs)
 
 
-class ProductDestroy(DestroyAPIView):
+class ProductRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     """
+    Admin only
+    * Rtrieve a given product
+    * Update a given product
     * Destroy a given product
     """
     queryset = Product.objects.all()
+    serializer_class = ProductSerializer
     lookup_field = 'id'
     # Delete cache of deleted product
     def delete(self, request, *args, **kwargs):
@@ -58,6 +64,15 @@ class ProductDestroy(DestroyAPIView):
         if response.status_code == 204:
             from django.core.cache import cache
             cache.delete('product_data_{}'.format(product_id))
+        return response
+    # Update data and cache
+    def update(self, request, *args, **kwargs):
+        response = super().update(request, *args, **kwargs)
+        if response.status_code == 200:
+            from django.core.cache import cache
+            product = response.data
+            serializer = ProductSerializer(data=product)
+            cache.set('product_data_{}'.format(product['id']), serializer)
         return response
 
 
