@@ -81,16 +81,17 @@ In this project I will be building a functioning RESTful API using Django Restfr
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
-[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
-[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
-[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/TobiAdeniyi/django-rest-framework-api.svg?style=for-the-badge
+[contributors-url]: https://github.com/TobiAdeniyi/django-rest-framework-api/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/TobiAdeniyi/django-rest-framework-api.svg?style=for-the-badge
+[forks-url]: https://github.com/TobiAdeniyi/django-rest-framework-api/network/members
+[stars-shield]: https://img.shields.io/github/stars/TobiAdeniyi/django-rest-framework-api.svg?style=for-the-badge
+[stars-url]: https://github.com/TobiAdeniyi/django-rest-framework-api/stargazers
+[issues-shield]: https://img.shields.io/github/issues/TobiAdeniyi/django-rest-framework-api.svg?style=for-the-badge
+[issues-url]: https://github.com/TobiAdeniyi/django-rest-framework-api/issues
+[license-shield]: https://img.shields.io/github/license/TobiAdeniyi/django-rest-framework-api?style=for-the-badge
+[license-url]: https://github.com/TobiAdeniyi/django-rest-framework-api/blob/main/LICENSE.md
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/tobiloba-adeniyi/
-[product-screenshot]: images/screenshot.png
+<!-- [website-screenshot]: images/projects/django_portfolio_website.png
+[website-url]: https://tobi-django-rest-framework.herokuapp.com/ -->
