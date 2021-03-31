@@ -4,8 +4,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.pagination import LimitOffsetPagination
 
-from .serializers import ProductSerializer, BasketSerializer, CustomerSerializer
-from .models import Product, Basket, Customer
+from .serializers import ProductSerializer, CustomerSerializer,  BasketSerializer, BasketItemSerializer
+from .models import Product, Customer, Basket, BasketItem
 
 
 class ProductsPagination(LimitOffsetPagination):
@@ -84,7 +84,10 @@ class CustomerListCreate(ListCreateAPIView):
     filterset_fields = '__all__'
     ordering_fields = '__all__'
     search_fields = '__all__'
+
     # Create a basket item
+    def create(self, request, *args, **kwargs):
+        return super().create(request, *args, **kwargs)
 
 
 class CustomerRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
@@ -112,6 +115,10 @@ class BasketListCreate(ListCreateAPIView):
     ordering_fields = '__all__'
     search_fields = '__all__'
 
+    # Create a basket item
+    def create(self, request, *args, **kwargs):
+        return super().create(request, *args, **kwargs)
+
 
 class BasketRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
     """
@@ -123,3 +130,21 @@ class BasketRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
     queryset = Basket.objects.all()
     serializer_class = BasketSerializer
     lookup_field = 'id'
+
+
+class BasketItemListCreate(ListCreateAPIView):
+    """
+    Admin viewer:
+    * View all baskets of customers
+    * Create a new basket for customer
+    """
+    queryset = BasketItem.objects.all()
+    serializer_class = BasketItemSerializer
+    filter_backends = [OrderingFilter, SearchFilter, DjangoFilterBackend]
+    filterset_fields = '__all__'
+    ordering_fields = '__all__'
+    search_fields = '__all__'
+
+    # Create a basket item
+    def create(self, request, *args, **kwargs):
+        return super().create(request, *args, **kwargs)

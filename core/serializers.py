@@ -25,7 +25,7 @@ class BasketSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Basket
-        fields = ['customer', 'date_added', 'basket_items']
+        fields = ['id', 'basket_items']
 
     def get_basket_items(self, instance):
         basket_items = BasketItem.objects.filter(basket=instance)
@@ -33,8 +33,8 @@ class BasketSerializer(serializers.ModelSerializer):
 
 
 class BasketItemSerializer(serializers.ModelSerializer):
-    quntity = serializers.IntegerField(min_value=1, max_value=100)
+    quantity = serializers.IntegerField(min_value=1, max_value=100)
 
     class Meta:
         model = BasketItem
-        fields = '__all__'
+        fields = ['product', 'quantity', 'date_added']
