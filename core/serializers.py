@@ -13,11 +13,11 @@ class CustomerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Customer
-        fields = ['id', 'user', 'name', 'basket']
+        fields = ['id', 'name', 'basket']
 
     def get_basket(self, instance):
-        basket = Basket.objects.get(customer=instance)
-        return BasketSerializer(basket, many=False).data
+        basket = Basket.objects.filter(customer=instance)
+        return BasketSerializer(basket, many=True).data
 
 
 class BasketSerializer(serializers.ModelSerializer):

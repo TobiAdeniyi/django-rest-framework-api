@@ -18,8 +18,6 @@ class Product(models.Model):
 
 # Customers of the Store
 class Customer(models.Model):
-    user = models.OneToOneField(
-        User, null=True, blank=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, null=True)
 
     class Meta:
@@ -34,8 +32,7 @@ class Customer(models.Model):
 
 # Baskets for Customers
 class Basket(models.Model):
-    customer = models.OneToOneField(
-        Customer, related_name='customer', null=False, blank=False, on_delete=models.CASCADE)
+    customer = models.OneToOneField(Customer, related_name='customer', on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -50,10 +47,8 @@ class Basket(models.Model):
 
 # Items in Customer Basket
 class BasketItem(models.Model):
-    basket = models.ForeignKey(
-        Basket, related_name='basket', null=False, blank=False, on_delete=models.CASCADE)
-    product = models.ForeignKey(
-        Product, related_name='product', null=False, blank=False, on_delete=models.CASCADE)
+    basket = models.ForeignKey(Basket, related_name='items', related_query_name='item', on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, related_name='+', on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
     quantity = models.IntegerField()
 

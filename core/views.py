@@ -29,8 +29,8 @@ class ProductListCreate(ListCreateAPIView):
     filterset_fields = ['name', 'weight', 'color']
     ordering_fields = ['name', 'weight', 'color']
     search_fields = ['name', 'weight', 'color']
-    # Ensure input data is suitable
 
+    # Ensure input data is suitable
     def create(self, request, *args, **kwargs):
         try:
             weight = request.data.get('weight')
@@ -41,7 +41,7 @@ class ProductListCreate(ListCreateAPIView):
         return super().create(request, *args, **kwargs)
 
 
-class ProductRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+class ProductRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
     """
     Admin view:
     * Rtrieve a given product
@@ -51,8 +51,8 @@ class ProductRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'id'
-    # Delete cache of deleted product
 
+    # Delete cache of deleted product
     def delete(self, request, *args, **kwargs):
         product_id = request.data.get('id')
         response = super().delete(request, *args, **kwargs)
@@ -60,8 +60,8 @@ class ProductRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
             from django.core.cache import cache
             cache.delete('product_data_{}'.format(product_id))
         return response
-    # Update data and cache
 
+    # Update data and cache
     def update(self, request, *args, **kwargs):
         response = super().update(request, *args, **kwargs)
         if response.status_code == 200:
@@ -70,32 +70,6 @@ class ProductRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
             serializer = ProductSerializer(data=product)
             cache.set('product_data_{}'.format(product['id']), serializer)
         return response
-
-
-class BasketListCreate(ListCreateAPIView):
-    """
-    Admin viewer:
-    * View all baskets of customers
-    * Create a new basket for customer
-    """
-    queryset = Basket.objects.all()
-    serializer_class = BasketSerializer
-    filter_backends = [OrderingFilter, SearchFilter, DjangoFilterBackend]
-    filterset_fields = '__all__'
-    ordering_fields = '__all__'
-    search_fields = '__all__'
-
-
-class BasketRetrieveUpdateDelete(RetrieveUpdateDestroyAPIView):
-    """
-    Admin viewer:
-    * Retrieve a given user basket
-    * Update a given user basket
-    * Delete a given user basket
-    """
-    queryset = Basket.objects.all()
-    serializer_class = BasketSerializer
-    lookup_field = 'id'
 
 
 class CustomerListCreate(ListCreateAPIView):
@@ -113,10 +87,39 @@ class CustomerListCreate(ListCreateAPIView):
     # Create a basket item
 
 
-class CustomerRetrieveUpdateDelete(RetrieveUpdateDestroyAPIView):
+class CustomerRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
     """
     Customer viewer:
     * Retrieve detail on a product in basket
     * Update detail of the number of a product in basket
     * Delete a product from basket
     """
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
+    lookup_field = 'id'
+
+
+class BasketListCreate(ListCreateAPIView):
+    """
+    Admin viewer:
+    * View all baskets of customers
+    * Create a new basket for customer
+    """
+    queryset = Basket.objects.all()
+    serializer_class = BasketSerializer
+    filter_backends = [OrderingFilter, SearchFilter, DjangoFilterBackend]
+    filterset_fields = '__all__'
+    ordering_fields = '__all__'
+    search_fields = '__all__'
+
+
+class BasketRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
+    """
+    Admin viewer:
+    * Retrieve a given user basket
+    * Update a given user basket
+    * Delete a given user basket
+    """
+    queryset = Basket.objects.all()
+    serializer_class = BasketSerializer
+    lookup_field = 'id'
