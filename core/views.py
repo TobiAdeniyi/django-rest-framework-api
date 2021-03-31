@@ -1,11 +1,11 @@
 from rest_framework.exceptions import ValidationError
-from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework.pagination import LimitOffsetPagination
 
-from .serializers import ProductSerializer, BasketSerializer
-from .models import Product, Basket
+from .serializers import ProductSerializer, BasketSerializer, CustomerSerializer
+from .models import Product, Basket, Customer
 
 
 class ProductsPagination(LimitOffsetPagination):
@@ -16,10 +16,11 @@ class ProductsPagination(LimitOffsetPagination):
     max_limit = 100
 
 
-class ProductList(ListAPIView):
+class ProductListCreate(ListCreateAPIView):
     """
-    All User
+    All view:
     * View all products in store
+    * Create new product in store
     """
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
@@ -28,15 +29,8 @@ class ProductList(ListAPIView):
     filterset_fields = ['name', 'weight', 'color']
     ordering_fields = ['name', 'weight', 'color']
     search_fields = ['name', 'weight', 'color']
-
-
-class ProductCreate(CreateAPIView):
-    """
-    Admin only
-    * Create new product in store
-    """
-    serializer_class = ProductSerializer
     # Ensure input data is suitable
+
     def create(self, request, *args, **kwargs):
         try:
             weight = request.data.get('weight')
@@ -49,7 +43,7 @@ class ProductCreate(CreateAPIView):
 
 class ProductRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     """
-    Admin only
+    Admin view:
     * Rtrieve a given product
     * Update a given product
     * Destroy a given product
@@ -58,6 +52,7 @@ class ProductRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = ProductSerializer
     lookup_field = 'id'
     # Delete cache of deleted product
+
     def delete(self, request, *args, **kwargs):
         product_id = request.data.get('id')
         response = super().delete(request, *args, **kwargs)
@@ -66,6 +61,7 @@ class ProductRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
             cache.delete('product_data_{}'.format(product_id))
         return response
     # Update data and cache
+
     def update(self, request, *args, **kwargs):
         response = super().update(request, *args, **kwargs)
         if response.status_code == 200:
@@ -76,15 +72,51 @@ class ProductRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
         return response
 
 
-class BasketList(ListAPIView):
+class BasketListCreate(ListCreateAPIView):
     """
-    Customer viewer:
-    * View all products in store
+    Admin viewer:
+    * View all baskets of customers
+    * Create a new basket for customer
     """
     queryset = Basket.objects.all()
     serializer_class = BasketSerializer
-
     filter_backends = [OrderingFilter, SearchFilter, DjangoFilterBackend]
     filterset_fields = '__all__'
     ordering_fields = '__all__'
     search_fields = '__all__'
+
+
+class BasketRetrieveUpdateDelete(RetrieveUpdateDestroyAPIView):
+    """
+    Admin viewer:
+    * Retrieve a given user basket
+    * Update a given user basket
+    * Delete a given user basket
+    """
+    queryset = Basket.objects.all()
+    serializer_class = BasketSerializer
+    lookup_field = 'id'
+
+
+class CustomerListCreate(ListCreateAPIView):
+    """
+    Customer viewer:
+    * List products in basket
+    * Add product to basket
+    """
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer
+    filter_backends = [OrderingFilter, SearchFilter, DjangoFilterBackend]
+    filterset_fields = '__all__'
+    ordering_fields = '__all__'
+    search_fields = '__all__'
+    # Create a basket item
+
+
+class CustomerRetrieveUpdateDelete(RetrieveUpdateDestroyAPIView):
+    """
+    Customer viewer:
+    * Retrieve detail on a product in basket
+    * Update detail of the number of a product in basket
+    * Delete a product from basket
+    """
